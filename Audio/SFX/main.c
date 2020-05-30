@@ -89,7 +89,7 @@ int main(int argc, char **argv) {
         }
     }
 
-    // Unload all sound effects from AICA RAM
+    // Unload all sound effects from sound RAM
     snd_sfx_unload(beep1);	
     snd_sfx_unload(beep2);
     snd_sfx_unload(beep3);	
