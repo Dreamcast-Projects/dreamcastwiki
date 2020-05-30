@@ -1,5 +1,9 @@
 #include <kos.h>
 
+#define LEFT 0
+#define MIDDLE 128
+#define RIGHT 255
+
 extern uint8 romdisk[];
 KOS_INIT_ROMDISK(romdisk);
 
@@ -35,30 +39,30 @@ int main(int argc, char **argv) {
         
         // Play sounds on different channels
         if(button_pressed(current_buttons, changed_buttons, CONT_A)) {
-            snd_sfx_play(beep1, volume, 128);
+            snd_sfx_play(beep1, volume, MIDDLE);
         }
         if(button_pressed(current_buttons, changed_buttons, CONT_B)) {
-            snd_sfx_play(beep2, volume, 255);
+            snd_sfx_play(beep2, volume, RIGHT);
         }
         if(button_pressed(current_buttons, changed_buttons, CONT_X)) {
-            snd_sfx_play(beep3, volume, 0);
+            snd_sfx_play(beep3, volume, LEFT);
         }
         if(button_pressed(current_buttons, changed_buttons, CONT_Y)) {
-            snd_sfx_play(beep4, volume, 128);
+            snd_sfx_play(beep4, volume, MIDDLE);
         }
         
         // Play sounds on same channel
         if(button_pressed(current_buttons, changed_buttons, CONT_DPAD_DOWN)) {
-            snd_sfx_play_chn(0, beep1, volume, 128);
+            snd_sfx_play_chn(0, beep1, volume, MIDDLE);
         }
         if(button_pressed(current_buttons, changed_buttons, CONT_DPAD_RIGHT)) {
-            snd_sfx_play_chn(0, beep2, volume, 255);
+            snd_sfx_play_chn(0, beep2, volume, RIGHT);
         }
         if(button_pressed(current_buttons, changed_buttons, CONT_DPAD_LEFT)) {
-            snd_sfx_play_chn(0, beep3, volume, 0);
+            snd_sfx_play_chn(0, beep3, volume, LEFT);
         }
         if(button_pressed(current_buttons, changed_buttons, CONT_DPAD_UP)) {
-            snd_sfx_play_chn(0, beep4, volume, 128);
+            snd_sfx_play_chn(0, beep4, volume, MIDDLE);
         }
 
         // Adjust Volume
