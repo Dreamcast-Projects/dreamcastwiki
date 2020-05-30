@@ -46,6 +46,7 @@ int main(int argc, char **argv) {
         if(button_pressed(current_buttons, changed_buttons, CONT_Y)) {
             snd_sfx_play(beep4, volume, 128);
         }
+        
         // Play sounds on same channel
         if(button_pressed(current_buttons, changed_buttons, CONT_DPAD_DOWN)) {
             snd_sfx_play_chn(0, beep1, volume, 128);
@@ -59,6 +60,7 @@ int main(int argc, char **argv) {
         if(button_pressed(current_buttons, changed_buttons, CONT_DPAD_UP)) {
             snd_sfx_play_chn(0, beep4, volume, 128);
         }
+
         // Adjust Volume
         if(cond->ltrig > 0) {
             volume_changed = 1;
@@ -72,6 +74,7 @@ int main(int argc, char **argv) {
             if(volume > 0)
                 volume--;
         }
+
         // Exit Program
         if(button_pressed(current_buttons, changed_buttons, CONT_START))
             break;
