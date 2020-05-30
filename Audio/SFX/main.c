@@ -23,9 +23,9 @@ int main(int argc, char **argv) {
 
     // Load wav files found in romdisk
     sfxhnd_t beep1 = snd_sfx_load("/rd/beep-1.wav");
-	sfxhnd_t beep2 = snd_sfx_load("/rd/beep-2.wav");
+    sfxhnd_t beep2 = snd_sfx_load("/rd/beep-2.wav");
     sfxhnd_t beep3 = snd_sfx_load("/rd/beep-3.wav");
-	sfxhnd_t beep4 = snd_sfx_load("/rd/beep-4.wav");
+    sfxhnd_t beep4 = snd_sfx_load("/rd/beep-4.wav");
 
     unsigned int current_buttons = 0;
     unsigned int changed_buttons = 0;
