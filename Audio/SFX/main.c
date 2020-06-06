@@ -69,7 +69,7 @@ int main(int argc, char **argv) {
         if(cond->ltrig > 0) {
             volume_changed = 1;
 
-            if(volume < 254)
+            if(volume < 255)
                 volume++;
         }
         if(cond->rtrig > 0) {
