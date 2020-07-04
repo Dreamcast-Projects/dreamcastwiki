@@ -1,12 +1,13 @@
 #include <kos.h>
+#include <kos/string.h>
 
 #include <stdio.h> 
 #include <dirent.h>
 #include <libgen.h>
 #include <fat/fs_fat.h>
 
-#define DT_DIR 4
-#define DT_REG 8
+#define DIR 4096
+#define FILE 0
 
 #define BUFFER_LENGTH 512
 
@@ -60,7 +61,7 @@ int main(int argc, char **argv) {
 
     // Start off at the root of the dreamcast and get its contents
     memset(current_directory, 0, BUFFER_LENGTH);
-    strcat(current_directory, "/");
+    fs_path_append(current_directory, "/", BUFFER_LENGTH);
     content_count = browse_directory(current_directory, directory_contents);
    
     unsigned int current_buttons = 0;
@@ -101,10 +102,10 @@ int main(int argc, char **argv) {
 
                         memset(directory_temp2, 0, BUFFER_LENGTH);
                         if(mounted_sd)
-                            strcat(directory_temp2, "/sd");
+                            fs_path_append(directory_temp2, "/sd", BUFFER_LENGTH);
                         else
-                            strcat(directory_temp2, "/ram");
-                        strcat(directory_temp2, basename(directory_temp));
+                            fs_path_append(directory_temp2, "/ram", BUFFER_LENGTH);
+                        fs_path_append(directory_temp2, basename(directory_temp), BUFFER_LENGTH);
                         fs_copy(directory_temp, directory_temp2);
                     }
                     highlight_yes = 1;
@@ -283,10 +284,12 @@ static void delete_file(char* filename, int mounted_sd) {
 
 static int browse_directory(char* directory, DirectoryFile directory_contents[]) {
     int count = 0;
-    struct dirent* de;  // Pointer for directory entry
-    DIR* dr = opendir(directory);
+    //struct dirent* de;  // Pointer for directory entry
+    dirent_t    *de;
+    //DIR* dr = opendir(directory);
+    file_t dr = fs_open(directory, O_RDONLY | O_DIR);
 
-    if (dr == NULL) return 0;
+    if (!dr) return 0;
 
     // Clear out all files
     memset(directory_contents, 0, sizeof(directory_contents[0]) * 100);
@@ -299,14 +302,16 @@ static int browse_directory(char* directory, DirectoryFile directory_contents[])
     }
     
     // Add files
-    while ((de = readdir(dr)) != NULL && count < 100) {
-        if(strcmp(de->d_name, ".") != 0 && strcmp(de->d_name, "..") != 0) {
-            directory_contents[count].IsDir = de->d_type == DT_DIR;
-            strcpy(directory_contents[count].FileName, de->d_name);
+    while ((de = fs_readdir(dr)) != NULL && count < 100) {
+        if(strcmp(de->name, ".") != 0 && strcmp(de->name, "..") != 0) {
+            directory_contents[count].IsDir = de->attr == DIR;
+            strcpy(directory_contents[count].FileName, de->name);
 
             count++;
         } 
     }
+
+    fs_close(dr);
 
     return count;
 }
