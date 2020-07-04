@@ -148,7 +148,7 @@ int main(int argc, char **argv) {
                 memset(directory_temp, 0, BUFFER_LENGTH);
                 // If we are not currently in the root directory
                 if(strcmp(current_directory, "/") != 0) {
-                    strncat(directory_temp, current_directory, strrchr(current_directory, '/') - current_directory + 1);
+                    strncat(directory_temp, current_directory, strrchr(current_directory, '/') - current_directory);
                     // Go the previous directory and get the directory contents
                     content_count = browse_directory(directory_temp, directory_contents);
                     if(content_count > 0) {
