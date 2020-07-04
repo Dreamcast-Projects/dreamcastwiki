@@ -117,7 +117,8 @@ int main(int argc, char **argv) {
                     // Navigate to it and get the directory contents
                     memset(directory_temp, 0, BUFFER_LENGTH);
                     if(strcmp(directory_contents[selector_index].FileName, "..") == 0) {
-                        strncat(directory_temp, current_directory, strrchr(current_directory, '/') - current_directory);
+                        int copy_count = strrchr(current_directory, '/') - current_directory;
+                        strncat(directory_temp, current_directory, (copy_count==0) ? 1 : copy_count);
                     } else {
                         fs_path_append(directory_temp, current_directory, BUFFER_LENGTH);
                         fs_path_append(directory_temp, directory_contents[selector_index].FileName, BUFFER_LENGTH);
@@ -148,7 +149,8 @@ int main(int argc, char **argv) {
                 memset(directory_temp, 0, BUFFER_LENGTH);
                 // If we are not currently in the root directory
                 if(strcmp(current_directory, "/") != 0) {
-                    strncat(directory_temp, current_directory, strrchr(current_directory, '/') - current_directory);
+                    int copy_count = strrchr(current_directory, '/') - current_directory;
+                    strncat(directory_temp, current_directory, (copy_count==0) ? 1 : copy_count );
                     // Go the previous directory and get the directory contents
                     content_count = browse_directory(directory_temp, directory_contents);
                     if(content_count > 0) {
@@ -295,7 +297,7 @@ static int browse_directory(char* directory, DirectoryFile directory_contents[])
     memset(directory_contents, 0, sizeof(directory_contents[0]) * 100);
 
     // Add the back option if we are not in the root directory
-    if(strcmp(directory, "/") != 0 && strcmp(directory, ".") != 0 && strcmp(directory, "") != 0) {
+    if(strcmp(directory, "/") != 0 && strcmp(directory, ".") != 0) {
         strcpy(directory_contents[count].FileName, "..");
         directory_contents[count].IsDir = 1;
         count++;
