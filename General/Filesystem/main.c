@@ -19,6 +19,8 @@ typedef struct {
 extern uint8 romdisk[];
 KOS_INIT_ROMDISK(romdisk);
 
+static kos_blockdev_t sd_dev;
+
 static int mount_sd_fat();
 static void unmount_sd_fat();
 
@@ -207,7 +209,6 @@ int main(int argc, char **argv) {
 }
 
 static int mount_sd_fat() {
-    kos_blockdev_t sd_dev;
     uint8 partition_type;
 
     if(sd_init()) {
